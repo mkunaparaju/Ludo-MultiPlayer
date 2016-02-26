@@ -21,6 +21,7 @@ module gameLogic {
         board[i][j] = '';
       }
     }
+    // need to  intialize our board with 2 players at opposite ends
     return board;
   }
 
