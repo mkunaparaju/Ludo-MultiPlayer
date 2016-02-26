@@ -21,7 +21,15 @@ module gameLogic {
         board[i][j] = '';
       }
     }
-    // need to  intialize our board with 2 players at opposite ends
+    for (let i = 2 ; i<4; i++)
+    {
+        for(let j = 2 ; j<4; j++)
+        {
+            board[i][j] = 'R';
+            board[ROWS-i][COLS-j] = 'B';
+        }         
+    }
+ 
     return board;
   }
 
