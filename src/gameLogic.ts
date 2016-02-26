@@ -11,7 +11,13 @@ interface IState {
 module gameLogic {
   export const ROWS = 15;
   export const COLS = 15;
-
+  var playerCount={
+        'R' : 4,
+        'B' : 4,
+        'G' : 4,
+        'Y' : 4
+    };
+    
   /** Returns the initial TicTacToe board, which is a ROWSxCOLS matrix containing ''. */
   function getInitialBoard(): Board {
     let board: Board = [];
@@ -36,7 +42,6 @@ module gameLogic {
   export function getInitialState(): IState {
     return {board: getInitialBoard(), delta: null};
   }
-
   /**
    * Returns true if the game ended in a tie because there are no empty cells.
    * E.g., isTie returns true for the following board:
@@ -66,7 +71,21 @@ module gameLogic {
    *      ['X', '', '']]
    */
   function getWinner(board: Board): string {
-    let boardString = '';
+    
+    if(playerCount['R'] === 0){
+        return 'R';
+    }else if(playerCount['B'] === 0){
+        return 'B';
+    }else if(playerCount['Y'] === 0){
+        return 'Y';
+    } else if(playerCount['G'] === 0){
+        return 'G';
+    }else{
+        return '';
+    } 
+    
+
+    /** let boardString = '';
     for (let i = 0; i < ROWS; i++) {
       for (let j = 0; j < COLS; j++) {
         let cell = board[i][j];
@@ -93,7 +112,7 @@ module gameLogic {
         return 'O';
       }
     }
-    return '';
+    return '';*/
   }
 
   /**
@@ -102,16 +121,26 @@ module gameLogic {
    */
   export function createMove(
       stateBeforeMove: IState, row: number, col: number, turnIndexBeforeMove: number): IMove {
-    if (!stateBeforeMove) { // stateBeforeMove is null in a new match.
+    if (!stateBeforeMove) { // stateBeforeMove is null in a new game.
       stateBeforeMove = getInitialState();
     }
     let board: Board = stateBeforeMove.board;
+    
+    
+    //TODO : Update if player lands on a star or another player
     if (board[row][col] !== '') {
-      throw new Error("One can only make a move in an empty position!");
+      if(board[row][col] === 'S'){
+          //will have to give the current player one more turn. Next move is also his
+      }else if(board[row][col] !== ''){
+          //here if the player already at the position is not the same as the current player, then send the original player back home. Update matrix to store current player value
+      }else if(board[row][col] === 'X'){
+          throw new Error("Illegal move. This location is not accessible!");
+      }
     }
-    if (getWinner(board) !== '' || isTie(board)) {
+    if (getWinner(board) !== '') {
       throw new Error("Can only make a move if the game is not over!");
     }
+    //------------------------------------------------------------------------------------------
     let boardAfterMove = angular.copy(board);
     boardAfterMove[row][col] = turnIndexBeforeMove === 0 ? 'X' : 'O';
     let winner = getWinner(boardAfterMove);
