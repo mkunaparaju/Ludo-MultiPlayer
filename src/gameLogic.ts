@@ -145,7 +145,7 @@ module gameLogic {
       turnIndexBeforeMove: 0,
       stateBeforeMove: null,
       move: move,
-      numberOfPlayers: 2};
+      numberOfPlayers: 4};
     gameLogic.checkMoveOk(params);
   }
 }
